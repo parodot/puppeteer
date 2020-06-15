@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-let asyncawait = true;
-try {
-  new Function('async function test(){await 1}');
-} catch (error) {
-  asyncawait = false;
-}
+const { initializePuppeteer } = require('./lib/index');
 
-// If node does not support async await, use the compiled version.
-if (asyncawait)
-  module.exports = require('./lib/Puppeteer');
-else
-  module.exports = require('./node6/lib/Puppeteer');
+const puppeteer = initializePuppeteer({
+  packageJson: require('./package.json'),
+  rootDirectory: __dirname,
+});
+
+module.exports = puppeteer;
